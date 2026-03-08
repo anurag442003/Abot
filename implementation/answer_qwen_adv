@@ -9,7 +9,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 load_dotenv(override=True)
 
 MODEL = "ollama/qwen3:4b"
-DB_NAME = str(Path(__file__).parent.parent / "preprocessed_db")
+DB_NAME = str(Path(__file__).parent.parent / "vector_db")
 KNOWLEDGE_BASE_PATH = Path(__file__).parent.parent / "knowledge-base"
 SUMMARIES_PATH = Path(__file__).parent.parent / "summaries"
 

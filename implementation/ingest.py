@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-DB_NAME = str(Path(__file__).parent.parent / "preprocessed_db")
+DB_NAME = str(Path(__file__).parent.parent / "vector_db")
 KNOWLEDGE_BASE = str(Path(__file__).parent.parent / "knowledge-base")
 collection_name = "docs"  # ← must match answer.py
 
