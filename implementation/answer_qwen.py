@@ -5,9 +5,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.messages import SystemMessage, HumanMessage, convert_to_messages
 from langchain_core.documents import Document
 from ollama import Client
-
 from dotenv import load_dotenv
-from openai import OpenAI
 
 
 
