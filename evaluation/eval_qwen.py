@@ -16,7 +16,7 @@ JUDGE_MODEL = "qwen3:4b"
 ollama = OpenAI(api_key="ollama", base_url="http://localhost:11434/v1")
 ollama_client= Client()
 
-db_name = "preprocessed_db"
+db_name = "vector_db"
 
 
 class RetrievalEval(BaseModel):
