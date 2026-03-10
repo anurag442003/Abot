@@ -43,7 +43,7 @@ week5/
 
 ---
 
-## 🧠 How It Works
+## How It Works
 
 ### The RAG Pipeline
 
@@ -116,7 +116,7 @@ ollama pull qwen3:4b
 
 ---
 
-## 🚀 Quickstart
+## Quickstart
 
 ### Step 1 — Build the vector database
 
@@ -150,7 +150,7 @@ Opens a Gradio evaluation dashboard at `http://localhost:7860` with two tabs: Re
 
 ---
 
-## 🔬 Evaluation
+## Evaluation
 
 ### Test Suite
 
@@ -190,7 +190,7 @@ Opens a Gradio evaluation dashboard at `http://localhost:7860` with two tabs: Re
 
 ---
 
-## 🔄 Pipeline Variants
+## Pipeline Variants
 
 ### Local Pipeline (Offline)
 
@@ -209,7 +209,7 @@ Opens a Gradio evaluation dashboard at `http://localhost:7860` with two tabs: Re
 ---
 
 
-## 📊 Architecture Decisions
+##  Architecture Decisions
 
 **Why raw ChromaDB over LangChain Chroma?**
 LangChain's Chroma wrapper uses a default collection name (`langchain`) and stores data in a format that's harder to inspect directly. The raw `PersistentClient` gives full control over collection names, IDs, and metadata — which matters when `ingest.py` and `answer.py` need to share the same DB reliably.
@@ -222,7 +222,7 @@ Evaluation measures knowledge base and LLM baseline quality. Reranking and query
 
 ---
 
-## 📝 Knowledge Base
+## Knowledge Base
 
 Documents live in `knowledge-base/` as Markdown files, organized by type:
 
