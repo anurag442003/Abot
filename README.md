@@ -31,12 +31,11 @@ week5/
 ├── evaluation/                  # Evaluation framework
 │   ├── test.py                  # TestQuestion model + loader
 │   ├── tests.jsonl              # 10 test questions with reference answers
-│   ├── eval_1.py                # Eval using Ollama judge + full fetch_context
-│   ├── eval_2.py                # Eval using Ollama judge + fetch_context_unranked (fast)
-│   └── eval_gemini.py           # Eval using Gemini judge
+│   ├── eval_qwen.py             # Eval using Ollama judge
+│   ├── eval_gemini.py           # Eval using Gemini judge
+│   └── eval_gemini_unranked.py  # Eval using Ollama judge + fetch_context_unranked (fast)     
 │
-├── preprocessed_db/             # ChromaDB vector store (raw PersistentClient)
-├── vector_db/                   # ChromaDB vector store (LangChain Chroma)
+├── vector_db/                   # ChromaDB vector store
 │
 ├── app.py                       # Gradio chatbot UI
 └── evaluator.py                 # Gradio evaluation dashboard
@@ -69,7 +68,6 @@ User Question
 Final Answer
 ```
 
-The **basic pipeline** (`answer_1.py`, `answer_gemini.py`) skips steps 1–3 and goes straight to retrieval + generation. The **advanced pipeline** (`answer_2.py`, `pro_implementation/answer_gemini.py`) uses all four stages.
 
 ### Retrieval
 
@@ -126,13 +124,13 @@ ollama pull qwen3:4b
 ```bash
 uv run implementation/ingest.py
 ```
-This creates `preprocessed_db/` using `RecursiveCharacterTextSplitter` and raw ChromaDB.
+This creates `vector_db/` using `RecursiveCharacterTextSplitter` and raw ChromaDB.
 
 **Option B — LLM-based chunking (recommended for Gemini pipeline, higher quality):**
 ```bash
 uv run ingest_gemini_llm.py
 ```
-This creates `preprocessed_db/` with semantically structured chunks (requires Gemini API key).
+This creates `vector_db/` with semantically structured chunks (requires Gemini API key).
 
 ### Step 2 — Run the chatbot
 
@@ -179,20 +177,13 @@ Opens a Gradio evaluation dashboard at `http://localhost:7860` with two tabs: Re
 - **Completeness** — all key information included. Green ≥ 4.5
 - **Relevance** — no off-topic content. Green ≥ 4.5
 
-### Running evaluation from CLI
-
-```bash
-# Evaluate a single test by index (0-9)
-uv run evaluation/eval_2.py 0
-uv run evaluation/eval_gemini.py 3
-```
 
 ### Which eval file to use?
 
 | File | Answer pipeline | Judge model | Speed |
 |---|---|---|---|
-| `eval_1.py` | Ollama full pipeline (rerank+rewrite) | qwen3:4b local | Slow |
-| `eval_2.py` | Ollama fast (unranked only) | qwen3:4b local | Fast ✅ |
+| `eval_qwen.py` | Ollama full pipeline (rerank+rewrite) | qwen3:4b local | Slow |
+| `eval_gemini_unranked.py` | Ollama fast (unranked only) | Gemini 2.5 Flash | Fast ✅ |
 | `eval_gemini.py` | Gemini full pipeline | Gemini 2.5 Flash | Medium |
 
 > **Note:** Retrieval eval scores are not affected by reranking or query rewriting — those only affect answer quality. Retrieval scores reflect knowledge base and embedding model quality.
@@ -205,25 +196,15 @@ uv run evaluation/eval_gemini.py 3
 
 | File | Model | ChromaDB client | Chunking | Rerank/Rewrite |
 |---|---|---|---|---|
-| `answer_1.py` | qwen3:4b | LangChain Chroma | Recursive | ❌ |
-| `answer_2.py` | qwen3:4b | Raw PersistentClient | Recursive | ✅ |
-
+| `answer_qwen.py` | qwen3:4b | LangChain Chroma | Recursive | ❌ |
+| `answer_gemini.py` | gemini-2.5-flash | LangChain Chroma | Recursive | ✅ |
+| `answer_qwen_adv.py` | qwen3:4b | Chroma | Recursive | ✅ |
+| `answer_gemini_adv.py` | gemini-2.5-flash | Chroma | Recursive | ✅ |
 ### Gemini Pipeline (Cloud)
 
 | File | Model | ChromaDB client | Chunking | Rerank/Rewrite |
 |---|---|---|---|---|
 | `implementation/answer_gemini.py` | gemini-2.5-flash | LangChain Chroma | Recursive | ❌ |
-| `pro_implementation/answer_gemini.py` | gemini-2.5-flash | Raw PersistentClient | LLM or Recursive | ✅ |
-
-### Compatibility Rules
-
-> ⚠️ **Important:** `ingest.py` and `answer.py` must use the same ChromaDB client and collection name, or retrieval will silently return nothing.
-
-| Ingest file | Answer file | DB path | Collection |
-|---|---|---|---|
-| `ingest.py` | `answer_2.py` | `preprocessed_db/` | `docs` |
-| `ingest_gemini.py` | `implementation/answer_gemini.py` | `vector_db/` | `langchain` |
-| `ingest_gemini_llm.py` | `pro_implementation/answer_gemini.py` | `preprocessed_db/` | `docs` |
 
 ---
 
