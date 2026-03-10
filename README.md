@@ -197,14 +197,14 @@ Opens a Gradio evaluation dashboard at `http://localhost:7860` with two tabs: Re
 | File | Model | ChromaDB client | Chunking | Rerank/Rewrite |
 |---|---|---|---|---|
 | `answer_qwen.py` | qwen3:4b | LangChain Chroma | Recursive | ❌ |
-| `answer_gemini.py` | gemini-2.5-flash | LangChain Chroma | Recursive | ✅ |
 | `answer_qwen_adv.py` | qwen3:4b | Chroma | Recursive | ✅ |
-| `answer_gemini_adv.py` | gemini-2.5-flash | Chroma | Recursive | ✅ |
+
 ### Gemini Pipeline (Cloud)
 
 | File | Model | ChromaDB client | Chunking | Rerank/Rewrite |
 |---|---|---|---|---|
-| `implementation/answer_gemini.py` | gemini-2.5-flash | LangChain Chroma | Recursive | ❌ |
+| `answer_gemini.py` | gemini-2.5-flash | LangChain Chroma | Recursive | ✅ |
+| `answer_gemini_adv.py` | gemini-2.5-flash | Chroma | Recursive | ✅ |
 
 ---
 
