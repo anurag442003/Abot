@@ -180,11 +180,11 @@ Opens a Gradio evaluation dashboard at `http://localhost:7860` with two tabs: Re
 
 ### Which eval file to use?
 
-| File | Answer pipeline | Judge model | Speed |
+| File | Answer pipeline | Judge model | 
 |---|---|---|---|
-| `eval_qwen.py` | Ollama full pipeline (rerank+rewrite) | qwen3:4b local | Slow |
-| `eval_gemini_unranked.py` | Ollama fast (unranked only) | Gemini 2.5 Flash | Fast ✅ |
-| `eval_gemini.py` | Gemini full pipeline | Gemini 2.5 Flash | Medium |
+| `eval_qwen.py` | Ollama full pipeline (rerank+rewrite) | qwen3:4b local | 
+| `eval_gemini_unranked.py` | Ollama fast (unranked only) | Gemini 2.5 Flash | 
+| `eval_gemini.py` | Gemini full pipeline | Gemini 2.5 Flash |
 
 > **Note:** Retrieval eval scores are not affected by reranking or query rewriting — those only affect answer quality. Retrieval scores reflect knowledge base and embedding model quality.
 
